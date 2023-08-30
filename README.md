@@ -1,23 +1,41 @@
-Health Samples Repository
-======================
+# Health Connect Sample
 
-This repository contains a set of individual Android Studio projects to help you get started writing Health-related apps on Android and Wear OS.
+This repository contains a sample to help you get started writing [Health Connect][health-connect] apps for Android.
 
-The repository is structured by API. Read below for a description of each
+## Setup
 
--   **[Health Connect][health-connect-samples]**: Samples to help you with reading, writing and sharing health, fitness and wellness data using Health Connect. *[Learn more about Health Connect][health-connect-dac]*
+You will need:
 
--   **[Health Services][health-services-samples]**: Samples to help you get started with writing health-related apps on Wear OS that take advantage of the on-board sensors and algorithms to collect health and fitness data. *[Learn more about Health Services][health-services-dac]*
+*   An Android device or emulator running API level 27 or greater
+*   The [Health Connect APK][health-connect-apk] installed on the device or emulator
 
-Also available is:
+## Health Connect Toolbox
 
--   **[Health Platform][health-platform-v1-samples]**: Samples to help you with reading and writing health, fitness, and wellness data with the Health Platform. *[Learn more about Health Platform][health-platform-v1-dac]*
+The Health Connect Toolbox is a companion developer tool to help you test your app's integration. It can read and write data directly to Health Connect,
+allowing you to test your app's CRUD operations.
 
-However, developers should note that Health Connect should be used in preference to Health Platform for new integrations.
+You can download the toolbox [here][health-connect-toolbox]. 
 
-[health-connect-dac]: https://developer.android.com/health-connect
-[health-connect-samples]: health-connect/
-[health-platform-v1-dac]: https://developer.android.com/training/wearables/health-services/health-platform
-[health-platform-v1-samples]: health-platform-v1/
-[health-services-dac]: https://developer.android.com/training/wearables/health-services
-[health-services-samples]: health-services/
+The first time you open the Health Connect Toolbox app, you're taken to the permission settings under "Apps > Special app access > Display over other apps."
+This permission allows the Health Connect Toolbox to show an overlay on top of other apps so that you can test reading and writing data without leaving the app you're developing.
+
+## Screenshots
+
+<img src="screenshots/hc1.png" height="300" alt="Screenshot"/> <img src="screenshots/hc2.png" height="300" alt="Screenshot"/> <img src="screenshots/hc3.png" height="300" alt="Screenshot"/>
+
+## Getting started
+
+This sample uses the Gradle build system. To build this project, use the "gradlew build" command or "File > Open" in Android Studio.
+
+## Support
+
+If you've found an error in this sample, please file an issue:
+https://github.com/android/health-samples
+
+Patches are encouraged, and may be submitted by forking this project and
+submitting a pull request through GitHub. Please see [CONTRIBUTING][contributing] for more details.
+
+[health-connect]: https://developer.android.com/health-connect
+[health-connect-apk]: https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata
+[contributing]: ../../CONTRIBUTING.md
+[health-connect-toolbox]: https://goo.gle/health-connect-toolbox
