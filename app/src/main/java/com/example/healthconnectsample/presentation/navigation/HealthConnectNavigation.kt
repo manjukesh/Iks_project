@@ -90,6 +90,7 @@ fun HealthConnectNavigation(
             )
             val permissionsGranted by viewModel.permissionsGranted
             val sessionsList by viewModel.sessionsList
+            val heartRateSeries by viewModel.heartRateSeries
             val permissions = viewModel.permissions
             val onPermissionsResult = {viewModel.initialLoad()}
             val permissionsLauncher =
@@ -99,6 +100,7 @@ fun HealthConnectNavigation(
                 permissionsGranted = permissionsGranted,
                 permissions = permissions,
                 sessionsList = sessionsList,
+                heartRateSeries = heartRateSeries,
                 uiState = viewModel.uiState,
                 onInsertClick = {
                     viewModel.insertExerciseSession()

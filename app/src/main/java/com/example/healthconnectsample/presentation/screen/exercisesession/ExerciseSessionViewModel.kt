@@ -53,7 +53,12 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
         HealthPermission.getWritePermission(SpeedRecord::class),
         HealthPermission.getWritePermission(DistanceRecord::class),
         HealthPermission.getWritePermission(TotalCaloriesBurnedRecord::class),
-        HealthPermission.getWritePermission(HeartRateRecord::class)
+        HealthPermission.getWritePermission(HeartRateRecord::class),
+        HealthPermission.getReadPermission(StepsRecord::class),
+        HealthPermission.getReadPermission(DistanceRecord::class),
+        HealthPermission.getReadPermission(SpeedRecord::class),
+        HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class),
+        HealthPermission.getReadPermission(HeartRateRecord::class)
     )
 
     var permissionsGranted = mutableStateOf(false)
@@ -75,6 +80,7 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
             tryWithPermissionsCheck {
                 readExerciseSessions()
                 readHeartSeriesData()
+
             }
         }
     }
@@ -133,6 +139,14 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
                 val now = Instant.now()
                 val weekStart = now.minus(7, ChronoUnit.DAYS)
                 heartRateSeries.value = healthConnectManager.readHeartSeriesData(weekStart, now)
+                println("Heart Rate Series: $heartRateSeries")
+                println("Heart Rate Series: $heartRateSeries")
+                for (record in heartRateSeries.value){
+                    for (sample in record.samples)
+                    {
+                        println("Time: ${sample.time} BPM: ${sample.beatsPerMinute}")
+                    }
+                }
                 
             }
         }
