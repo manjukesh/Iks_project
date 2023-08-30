@@ -70,6 +70,9 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
     var heartRateSeries: MutableState<List<HeartRateRecord>> = mutableStateOf(listOf())
         private set
 
+    var timeSeries: MutableState<List<Long>> = mutableStateOf(listOf())
+        private set
+
     var uiState: UiState by mutableStateOf(UiState.Uninitialized)
         private set
 
@@ -147,7 +150,11 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
                         println("Time: ${sample.time} BPM: ${sample.beatsPerMinute}")
                     }
                 }
-                
+                for (record in heartRateSeries.value) {
+                    for (sample in record.samples) {
+                        timeSeries.value += sample.beatsPerMinute
+                    }
+                }
             }
         }
     }

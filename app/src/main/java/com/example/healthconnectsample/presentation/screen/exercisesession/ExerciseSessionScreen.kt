@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import com.example.healthconnectsample.R
+import com.example.healthconnectsample.presentation.component.BarChart
 import com.example.healthconnectsample.data.ExerciseSession
 import com.example.healthconnectsample.data.HealthConnectAppInfo
 import com.example.healthconnectsample.presentation.component.ExerciseSessionRow
@@ -65,6 +66,18 @@ fun ExerciseSessionScreen(
     // Remember the last error ID, such that it is possible to avoid re-launching the error
     // notification for the same error when the screen is recomposed, or configuration changes etc.
     val errorId = rememberSaveable { mutableStateOf(UUID.randomUUID()) }
+    val timeSeries= mutableListOf<Float>()
+    if (heartRateSeries != null) {
+        for (record in heartRateSeries) {
+            for (sample in record.samples) {
+                timeSeries.add(sample.beatsPerMinute.toFloat())
+                println(sample.beatsPerMinute.toFloat())
+            }
+        }
+        println(timeSeries)
+    }
+
+
 
     LaunchedEffect(uiState) {
         // If the initial data load has not taken place, attempt to load the data.
@@ -112,6 +125,26 @@ fun ExerciseSessionScreen(
                         Text(stringResource(id = R.string.insert_exercise_session))
                     }
                 }
+                
+                if (timeSeries.lastOrNull() != null){
+                    item {
+                        Text(text = "First 20 heartbeats")
+                        BarChart(values = timeSeries.subList(1,20))
+                    }
+                }
+
+                
+
+                if (timeSeries.isNotEmpty()) {
+                    item {
+                        Text(text = "Values in timeSeries:")
+                        for (value in timeSeries) {
+                            Text(text = value.toString())
+                        }
+                    }
+                }
+
+
 
                 items(sessionsList) { session ->
                     val appInfo = session.sourceAppInfo
