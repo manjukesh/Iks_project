@@ -29,6 +29,7 @@ import androidx.health.connect.client.changes.Change
 import androidx.health.connect.client.records.DistanceRecord
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.HeartRateVariabilityRmssdRecord
 import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.SleepSessionRecord
 import androidx.health.connect.client.records.SpeedRecord
@@ -265,7 +266,7 @@ class HealthConnectManager(private val context: Context) {
     }
 
     /**
-     *
+     * Anaadi custom functions
      *
      */
 
@@ -275,6 +276,14 @@ class HealthConnectManager(private val context: Context) {
             endTime = endTime
         )
         return readDataWithTimeFilterOnly<HeartRateRecord>(timeRangeFilter)
+    }
+
+    suspend fun readHrvS(startTime: Instant, endTime: Instant): List<HeartRateVariabilityRmssdRecord>{
+        val timeRangeFilter = TimeRangeFilter.between(
+            startTime = startTime,
+            endTime = endTime
+        )
+        return readDataWithTimeFilterOnly<HeartRateVariabilityRmssdRecord>(timeRangeFilter)
     }
 
     /**

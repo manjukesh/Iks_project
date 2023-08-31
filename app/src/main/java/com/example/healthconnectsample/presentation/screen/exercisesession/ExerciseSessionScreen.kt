@@ -16,6 +16,7 @@
 package com.example.healthconnectsample.presentation.screen.exercisesession
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.HeartRateVariabilityRmssdRecord
 import com.example.healthconnectsample.R
 import com.example.healthconnectsample.presentation.component.BarChart
 import com.example.healthconnectsample.data.ExerciseSession
@@ -54,6 +56,7 @@ fun ExerciseSessionScreen(
     permissionsGranted: Boolean,
     sessionsList: List<ExerciseSession>,
     heartRateSeries: List<HeartRateRecord> ?= null,
+    hrvsSeries: List<HeartRateVariabilityRmssdRecord> ?= null,
     uiState: ExerciseSessionViewModel.UiState,
     onInsertClick: () -> Unit = {},
     onDetailsClick: (String) -> Unit = {},
@@ -133,6 +136,19 @@ fun ExerciseSessionScreen(
                     }
                 }
 
+                if (hrvsSeries != null){
+                    if (hrvsSeries.isNotEmpty()) {
+                        item {
+                            Text(text = "HRVS_S")
+                            for (record in hrvsSeries) {
+                                Row {
+                                    Text(text = record.time.toString())
+                                    Text(text = record.heartRateVariabilityMillis.toString())
+                                }
+                            }
+                        }
+                    }
+                }
                 
 
                 if (timeSeries.isNotEmpty()) {

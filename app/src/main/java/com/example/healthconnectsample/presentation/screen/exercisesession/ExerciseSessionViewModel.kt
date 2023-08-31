@@ -24,6 +24,7 @@ import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.DistanceRecord
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.HeartRateVariabilityRmssdRecord
 import androidx.health.connect.client.records.SpeedRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.TotalCaloriesBurnedRecord
@@ -58,7 +59,8 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
         HealthPermission.getReadPermission(DistanceRecord::class),
         HealthPermission.getReadPermission(SpeedRecord::class),
         HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class),
-        HealthPermission.getReadPermission(HeartRateRecord::class)
+        HealthPermission.getReadPermission(HeartRateRecord::class),
+        HealthPermission.getReadPermission(HeartRateVariabilityRmssdRecord::class)
     )
 
     var permissionsGranted = mutableStateOf(false)
@@ -70,6 +72,9 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
     var heartRateSeries: MutableState<List<HeartRateRecord>> = mutableStateOf(listOf())
         private set
 
+    var hrvsSeries: MutableState<List<HeartRateVariabilityRmssdRecord>> = mutableStateOf(listOf())
+        private set
+    
     var timeSeries: MutableState<List<Long>> = mutableStateOf(listOf())
         private set
 
@@ -83,7 +88,7 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
             tryWithPermissionsCheck {
                 readExerciseSessions()
                 readHeartSeriesData()
-
+                readHrvsData()
             }
         }
     }
@@ -144,17 +149,27 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
                 heartRateSeries.value = healthConnectManager.readHeartSeriesData(weekStart, now)
                 println("Heart Rate Series: $heartRateSeries")
                 println("Heart Rate Series: $heartRateSeries")
-                for (record in heartRateSeries.value){
-                    for (sample in record.samples)
-                    {
-                        println("Time: ${sample.time} BPM: ${sample.beatsPerMinute}")
-                    }
-                }
+//                for (record in heartRateSeries.value){
+//                    for (sample in record.samples)
+//                    {
+//                        println("Time: ${sample.time} BPM: ${sample.beatsPerMinute}")
+//                    }
+//                }
                 for (record in heartRateSeries.value) {
                     for (sample in record.samples) {
                         timeSeries.value += sample.beatsPerMinute
                     }
                 }
+            }
+        }
+    }
+
+    private suspend fun readHrvsData(){
+        viewModelScope.launch {
+            tryWithPermissionsCheck {
+                val now = Instant.now()
+                val weekStart = now.minus(7, ChronoUnit.DAYS)
+                hrvsSeries.value = healthConnectManager.readHrvS(weekStart, now)
             }
         }
     }
