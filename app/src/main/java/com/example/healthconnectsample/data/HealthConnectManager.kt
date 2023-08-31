@@ -53,6 +53,7 @@ import java.io.IOException
 import java.time.Instant
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
+import kotlin.Exception
 import kotlin.random.Random
 import kotlin.reflect.KClass
 
@@ -120,7 +121,11 @@ class HealthConnectManager(private val context: Context) {
     }
 
     fun requestPermissionsActivityContract(): ActivityResultContract<Set<String>, Set<String>> {
-        return PermissionController.createRequestPermissionResultContract()
+        try{ return PermissionController.createRequestPermissionResultContract() }
+        catch (e: Exception){
+            println(e)
+            throw Exception("An error occurred ${e}")
+        }
     }
 
     suspend fun revokeAllPermissions() {

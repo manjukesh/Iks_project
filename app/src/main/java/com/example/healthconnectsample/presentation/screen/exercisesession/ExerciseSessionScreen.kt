@@ -74,10 +74,8 @@ fun ExerciseSessionScreen(
         for (record in heartRateSeries) {
             for (sample in record.samples) {
                 timeSeries.add(sample.beatsPerMinute.toFloat())
-                println(sample.beatsPerMinute.toFloat())
             }
         }
-        println(timeSeries)
     }
 
 
